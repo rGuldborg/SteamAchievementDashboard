@@ -1,0 +1,28 @@
+services:
+  backend:
+    build: ./backend
+    container_name: steam-backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+    environment:
+      - DB_PATH=/app/data/user_achievements.db
+    networks:
+      - steam-network
+
+  frontend:
+    build: ./frontend
+    container_name: steam-frontend
+    ports:
+      - "8501:8501"
+    depends_on:
+      - backend
+    networks:
+      - steam-network
+
+networks:
+  steam-network:
+    driver: bridge

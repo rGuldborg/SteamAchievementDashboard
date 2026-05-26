@@ -1,0 +1,21 @@
+# Miljøvariabler med API-nøgler — må ALDRIG committes
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Test og lint cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+pytest-cache-files-*/
+
+# Database-fil (lokal data)
+data/
+*.db
+
+# Virtuelle miljøer
+.venv/
+venv/
