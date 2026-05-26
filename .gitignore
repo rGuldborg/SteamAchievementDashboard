@@ -19,3 +19,4 @@ data/
 # Virtuelle miljøer
 .venv/
 venv/
+.env.example
