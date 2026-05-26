@@ -7,8 +7,8 @@ Et dashboard der viser Steam-achievements for dine spil, med AI-estimat for tid 
 Opret en `.env` fil i roden af projektet med følgende nøgler:
 
 ```
-STEAM_API_KEY=din_steam_api_nøgle
-MISTRAL_API_KEY=din_mistral_api_nøgle
+STEAM_API_KEY=XXXXX
+MISTRAL_API_KEY=XXXXX
 ```
 
 - **Steam API key:** hentes på [steamcommunity.com/dev/apikey](https://steamcommunity.com/dev/apikey)
