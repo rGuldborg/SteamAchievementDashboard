@@ -1,6 +1,8 @@
-import os
 import json
+import os
+
 import httpx
+
 from models import Achievement, LLMEstimate
 
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY", "")

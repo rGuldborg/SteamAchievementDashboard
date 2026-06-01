@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from pydantic import BaseModel
 
 
@@ -18,6 +20,7 @@ class GameAchievements(BaseModel):
 class PlayerAchievements(BaseModel):
     steam_id: str
     app_id: int
+    game_name: str
     achievements: list[Achievement]
 
 
@@ -27,19 +30,13 @@ class OwnedGame(BaseModel):
     playtime_hours: float
 
 
-class UserAchievement(BaseModel):
-    id: int | None = None
-    title: str
-    note: str
-    achieved: bool = False
-
-
 class LLMEstimate(BaseModel):
     estimated_hours: str
     reasoning: str
 
 
 class AchievementMark(BaseModel):
+    id: int | None = None
     steam_id: str
     app_id: int
     achievement_name: str

@@ -1,13 +1,12 @@
-import pytest
-from unittest.mock import patch, MagicMock
-
-import sys
 import os
+import sys
+from typing import Any
+from unittest.mock import MagicMock, patch
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import steam_api
 from models import GameAchievements, PlayerAchievements
-
 
 MOCK_SCHEMA_RESPONSE = {
     "game": {
@@ -54,7 +53,7 @@ MOCK_PLAYER_RESPONSE = {
 }
 
 
-def make_mock_response(data: dict) -> MagicMock:
+def make_mock_response(data: dict[str, Any]) -> MagicMock:
     mock = MagicMock()
     mock.json.return_value = data
     mock.raise_for_status = MagicMock()
@@ -62,7 +61,7 @@ def make_mock_response(data: dict) -> MagicMock:
 
 
 @patch("steam_api.httpx.get")
-def test_get_game_achievements_returns_correct_structure(mock_get):
+def test_get_game_achievements_returns_correct_structure(mock_get: MagicMock) -> None:
     mock_get.side_effect = [
         make_mock_response(MOCK_SCHEMA_RESPONSE),
         make_mock_response(MOCK_PERCENT_RESPONSE),
@@ -77,7 +76,7 @@ def test_get_game_achievements_returns_correct_structure(mock_get):
 
 
 @patch("steam_api.httpx.get")
-def test_achievements_sorted_by_difficulty(mock_get):
+def test_achievements_sorted_by_difficulty(mock_get: MagicMock) -> None:
     mock_get.side_effect = [
         make_mock_response(MOCK_SCHEMA_RESPONSE),
         make_mock_response(MOCK_PERCENT_RESPONSE),
@@ -90,7 +89,7 @@ def test_achievements_sorted_by_difficulty(mock_get):
 
 
 @patch("steam_api.httpx.get")
-def test_get_game_achievements_combines_schema_and_percents(mock_get):
+def test_get_game_achievements_combines_schema_and_percents(mock_get: MagicMock) -> None:
     mock_get.side_effect = [
         make_mock_response(MOCK_SCHEMA_RESPONSE),
         make_mock_response(MOCK_PERCENT_RESPONSE),
@@ -107,7 +106,7 @@ def test_get_game_achievements_combines_schema_and_percents(mock_get):
 
 
 @patch("steam_api.httpx.get")
-def test_get_player_achievements_returns_correct_structure(mock_get):
+def test_get_player_achievements_returns_correct_structure(mock_get: MagicMock) -> None:
     mock_get.side_effect = [
         make_mock_response(MOCK_SCHEMA_RESPONSE),
         make_mock_response(MOCK_PERCENT_RESPONSE),
@@ -123,7 +122,7 @@ def test_get_player_achievements_returns_correct_structure(mock_get):
 
 
 @patch("steam_api.httpx.get")
-def test_get_player_achievements_correct_unlock_status(mock_get):
+def test_get_player_achievements_correct_unlock_status(mock_get: MagicMock) -> None:
     mock_get.side_effect = [
         make_mock_response(MOCK_SCHEMA_RESPONSE),
         make_mock_response(MOCK_PERCENT_RESPONSE),
@@ -138,7 +137,7 @@ def test_get_player_achievements_correct_unlock_status(mock_get):
 
 
 @patch("steam_api.httpx.get")
-def test_get_player_achievements_enriched_with_global_percent(mock_get):
+def test_get_player_achievements_enriched_with_global_percent(mock_get: MagicMock) -> None:
     mock_get.side_effect = [
         make_mock_response(MOCK_SCHEMA_RESPONSE),
         make_mock_response(MOCK_PERCENT_RESPONSE),

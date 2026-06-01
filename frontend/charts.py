@@ -1,9 +1,11 @@
+from typing import Any
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 
 
-def calculate_stats(df: pd.DataFrame) -> dict:
+def calculate_stats(df: pd.DataFrame) -> dict[str, Any]:
     return {
         "count": len(df),
         "avg_completion": float(np.mean(df["global_percent"])),
@@ -22,11 +24,11 @@ def plot_achievement_chart(
     unlocked_names: set[str] = set()
     if player_df is not None:
         unlocked_names = set(
-            player_df.loc[player_df["achieved"] == True, "name"]
+            player_df.loc[player_df["achieved"], "name"]
         )
 
     color_values = np.linspace(0.1, 0.9, len(top_hard))
-    colors = [plt.cm.RdYlGn(v) for v in color_values]  # type: ignore
+    colors = [plt.cm.RdYlGn(v) for v in color_values]
 
     fig, ax = plt.subplots(figsize=(10, 6))
     bars = ax.barh(top_hard["display_name"], top_hard["global_percent"], color=colors)

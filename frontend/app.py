@@ -1,8 +1,7 @@
-import streamlit as st
-import pandas as pd
-
 import api_client
 import charts
+import pandas as pd
+import streamlit as st
 
 st.set_page_config(
     page_title="Steam Achievement Dashboard",
@@ -71,6 +70,8 @@ with st.spinner("Henter achievements..."):
 if not data:
     st.stop()
 
+assert data is not None  # st.stop() afbryder ovenfor; hjælper type-checkeren
+
 game_name = data.get("game_name", "Ukendt spil")
 achievements = data.get("achievements", [])
 df = pd.DataFrame(achievements)
@@ -111,9 +112,9 @@ filter_valg = st.radio(
     horizontal=True,
 )
 if filter_valg == "Kun låste op ✅":
-    vist_df = df[df["achieved"] == True]
+    vist_df = df[df["achieved"]]
 elif filter_valg == "Kun låste 🔒":
-    vist_df = df[df["achieved"] == False]
+    vist_df = df[~df["achieved"]]
 else:
     vist_df = df
 

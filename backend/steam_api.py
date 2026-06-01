@@ -1,5 +1,7 @@
 import os
+
 import httpx
+
 from models import Achievement, GameAchievements, OwnedGame, PlayerAchievements
 
 STEAM_API_KEY = os.getenv("STEAM_API_KEY", "")
@@ -8,7 +10,7 @@ STEAM_BASE_URL = "https://api.steampowered.com"
 
 def get_owned_games(steam_id: str) -> list[OwnedGame]:
     url = f"{STEAM_BASE_URL}/IPlayerService/GetOwnedGames/v1/"
-    params = {
+    params: dict[str, str | int] = {
         "key": STEAM_API_KEY,
         "steamid": steam_id,
         "include_appinfo": 1,

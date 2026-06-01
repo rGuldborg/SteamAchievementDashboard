@@ -1,8 +1,10 @@
 import os
-import pytest
+import sys
+from collections.abc import Iterator
 from unittest.mock import patch
 
-import sys
+import pytest
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import data_store
@@ -10,7 +12,7 @@ from models import AchievementMark
 
 
 @pytest.fixture(autouse=True)
-def use_temp_db():
+def use_temp_db() -> Iterator[None]:
     import tempfile
     with tempfile.NamedTemporaryFile(suffix=".db", delete=False) as f:
         db_file = f.name
@@ -29,7 +31,7 @@ def make_mark(achievement_name: str = "ACH_WIN_ONE", status: str = "mål") -> Ac
     )
 
 
-def test_set_and_get_mark():
+def test_set_and_get_mark() -> None:
     mark = make_mark("ACH_WIN_ONE", "mål")
     saved = data_store.set_mark(mark)
 
@@ -43,7 +45,7 @@ def test_set_and_get_mark():
     assert marks[0].status == "mål"
 
 
-def test_set_mark_overwrites_existing():
+def test_set_mark_overwrites_existing() -> None:
     data_store.set_mark(make_mark("ACH_WIN_ONE", "mål"))
     data_store.set_mark(make_mark("ACH_WIN_ONE", "i gang"))
 
@@ -52,7 +54,7 @@ def test_set_mark_overwrites_existing():
     assert marks[0].status == "i gang"
 
 
-def test_get_marks_returns_only_correct_player_and_game():
+def test_get_marks_returns_only_correct_player_and_game() -> None:
     data_store.set_mark(make_mark("ACH_WIN_ONE", "mål"))
 
     data_store.set_mark(AchievementMark(
@@ -74,7 +76,7 @@ def test_get_marks_returns_only_correct_player_and_game():
     assert marks[0].achievement_name == "ACH_WIN_ONE"
 
 
-def test_delete_mark():
+def test_delete_mark() -> None:
     data_store.set_mark(make_mark("ACH_WIN_ONE", "mål"))
 
     success = data_store.delete_mark("76561198000000001", 12345, "ACH_WIN_ONE")
@@ -84,12 +86,12 @@ def test_delete_mark():
     assert len(marks) == 0
 
 
-def test_delete_nonexistent_mark():
+def test_delete_nonexistent_mark() -> None:
     success = data_store.delete_mark("76561198000000001", 12345, "ACH_DOES_NOT_EXIST")
     assert success is False
 
 
-def test_multiple_marks_same_game():
+def test_multiple_marks_same_game() -> None:
     data_store.set_mark(make_mark("ACH_WIN_ONE", "mål"))
     data_store.set_mark(make_mark("ACH_WIN_100", "i gang"))
     data_store.set_mark(make_mark("ACH_SPEEDRUN", "mål"))
